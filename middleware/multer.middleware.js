@@ -1,28 +1,31 @@
 import multer from 'multer';
 import path from 'path';
 
+// Storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure this folder exists or use a dynamic path
+    cb(null, 'uploads/'); // Ensure this folder exists
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Filename with current timestamp
+    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to avoid overwriting
   }
 });
 
+// File filter logic
 const fileFilter = (req, file, cb) => {
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp','.avif']; // Accept more types like webp
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.pdf']; // Added .pdf
   const ext = path.extname(file.originalname).toLowerCase();
   if (!allowedExtensions.includes(ext)) {
-    return cb(new Error('Only images are allowed (.jpg, .jpeg, .png, .webp)'), false);
+    return cb(new Error('Only images and PDFs are allowed (.jpg, .jpeg, .png, .webp, .pdf)'), false);
   }
   cb(null, true);
 };
 
+// Multer instance
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 } // 2MB file size limit
+  limits: { fileSize: 5 * 1024 * 1024 }, // Increased limit to 5MB for PDFs
 });
 
 export default upload;

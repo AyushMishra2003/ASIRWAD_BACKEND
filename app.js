@@ -7,6 +7,12 @@ import errorMiddleware from "./middleware/error.middleware.js";
 import multer from "multer";
 import productRoute from "./routes/product.routes.js";
 import blogRoute from "./routes/blog.route.js";
+import teamRouter from "./routes/team.routes.js";
+import academicRoute from "./routes/academic.route.js";
+import noticeRouter from "./routes/notice.route.js";
+import libraryRoute from "./routes/library.route.js";
+import mainRoute from "./routes/main.route.js";
+import galleryRoute from "./routes/gallery.routes.js";
 
 
 
@@ -49,7 +55,13 @@ app.use(morgan("dev"));
 // app.use("/api/v1/payment",PayementRouter)
 app.use("/api/v1/blog",blogRoute)
 app.use("/api/v1/product",productRoute)
-
+app.use("/api/v1/team",teamRouter)
+app.use("/api/v1/team",teamRouter)
+app.use("/api/v1/academic",academicRoute)
+app.use("/api/v1/notice",noticeRouter)
+app.use("/api/v1/library",libraryRoute)
+app.use("/api/v1/main",mainRoute)
+app.use("/api/v1/gallery",galleryRoute)
 
 
 
