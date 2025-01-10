@@ -6,7 +6,7 @@ import morgan from "morgan";
 import errorMiddleware from "./middleware/error.middleware.js";
 import multer from "multer";
 import productRoute from "./routes/product.routes.js";
-import blogRoute from "./routes/blog.route.js";
+
 import teamRouter from "./routes/team.routes.js";
 import academicRoute from "./routes/academic.route.js";
 import noticeRouter from "./routes/notice.route.js";
@@ -48,12 +48,7 @@ app.use(morgan("dev"));
 // router
 
 
-// app.use("/api/v1/package",packageRouter)
-// app.use("/api/v1/service",ServiceRouter)
-// app.use("/api/v1/test",testRouter)
-// app.use("/api/v1/doctor",doctorRoute)
-// app.use("/api/v1/payment",PayementRouter)
-app.use("/api/v1/blog",blogRoute)
+
 app.use("/api/v1/product",productRoute)
 app.use("/api/v1/team",teamRouter)
 app.use("/api/v1/team",teamRouter)
