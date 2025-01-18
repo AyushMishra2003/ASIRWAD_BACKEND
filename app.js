@@ -13,6 +13,7 @@ import noticeRouter from "./routes/notice.route.js";
 import libraryRoute from "./routes/library.route.js";
 import mainRoute from "./routes/main.route.js";
 import galleryRoute from "./routes/gallery.routes.js";
+import iqacRoute from "./routes/iqac,routes.js";
 
 
 
@@ -59,6 +60,7 @@ app.use("/api/v1/notice",noticeRouter)
 app.use("/api/v1/library",libraryRoute)
 app.use("/api/v1/main",mainRoute)
 app.use("/api/v1/gallery",galleryRoute)
+app.use("/api/v1/iqac",iqacRoute)
 
 
 

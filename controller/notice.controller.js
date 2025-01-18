@@ -13,6 +13,9 @@ const addNotice=async(req,res,next)=>{
             return next(new AppError("All fields are Required",400))
         }
 
+        console.log(heading,date);
+        
+
         const newNotice=new NoticeModel({
             heading,
             date,
