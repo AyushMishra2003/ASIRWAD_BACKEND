@@ -4,98 +4,148 @@ import cloudinary from "cloudinary";
 import fs from "fs/promises";
 
 
-const addGallery=async(req,res,next)=>{
- try{
+const addGallery = async (req, res, next) => {
+    try {
 
-    const {name}=req.body
+        const { name } = req.body
 
-    if(!name){
-        return next(new AppError("All field are Required",400))
-    }
-
-    const addGallery=new Gallery({
-        name,
-        photo:{
-            public_id:"",
-            secure_url:""
-        }
-    })
-
-
-    if (req.file) {
-        const result = await cloudinary.v2.uploader.upload(req.file.path, {
-            folder: "lms",
-        });
-            
-        if (result) {
-             addGallery.photo.public_id = result.public_id;
-             addGallery.photo.secure_url = result.secure_url;
-        }
-            
-         fs.rm(`uploads/${req.file.filename}`);
-    }
-
-    await addGallery.save()
-
-    res.status(200).json({
-        success:true,
-        message:"Gallery Added Succesfully",
-        data:addGallery
-    })
-
-
-
- }catch(error){
-    return next(new AppError(error.message,500))
- }
-}
-
-const getGallery=async(req,res,next)=>{
-    try{
-
-        const allGallery=await Gallery.find({})
-
-        if(!allGallery){
-            return next(new AppError("Gallery not Found",400))
+        if (!name) {
+            return next(new AppError("All field are Required", 400))
         }
 
-         res.status(200).json({
-            success:true,
-            message:"All Gallery",
-            data:allGallery
-         })
+        const addGallery = new Gallery({
+            name,
+            photo: {
+                public_id: "",
+                secure_url: ""
+            }
+        })
 
-    }catch(error){
-        return next(new  AppError(error.message,500))
+
+        if (req.file) {
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: "lms",
+            });
+
+            if (result) {
+                addGallery.photo.public_id = result.public_id;
+                addGallery.photo.secure_url = result.secure_url;
+            }
+
+            fs.rm(`uploads/${req.file.filename}`);
+        }
+
+        await addGallery.save()
+
+        res.status(200).json({
+            success: true,
+            message: "Gallery Added Succesfully",
+            data: addGallery
+        })
+
+
+
+    } catch (error) {
+        return next(new AppError(error.message, 500))
     }
 }
 
+const getGallery = async (req, res, next) => {
+    try {
 
-const deleteGallery=async(req,res,next)=>{
-    try{
+        const allGallery = await Gallery.find({})
 
-        const {id}=req.params
+        if (!allGallery) {
+            return next(new AppError("Gallery not Found", 400))
+        }
 
-        const validGallery=await Gallery.findById(id)
+        res.status(200).json({
+            success: true,
+            message: "All Gallery",
+            data: allGallery
+        })
 
-        if(!validGallery){
+    } catch (error) {
+        return next(new AppError(error.message, 500))
+    }
+}
+
+const editGallery = async (req, res, next) => {
+    try {
+
+        const { name } = req.body
+
+        const { id } =req.params
+
+    
+
+        const validGallery = await Gallery.findById(id)
+
+        if (!validGallery) {
+            return next(new AppError("Gallery Not Found", 400))
+        }
+
+        if(name){
+            validGallery.name=name
+        }
+
+
+
+        if (req.file) {
+            const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                folder: "lms",
+            });
+
+            if (result) {
+                validGallery.photo.public_id = result.public_id;
+                validGallery.photo.secure_url = result.secure_url;
+            }
+
+            fs.rm(`uploads/${req.file.filename}`);
+        }
+
+        await validGallery.save()
+
+        res.status(200).json({
+            success: true,
+            message: "Gallery Added Succesfully",
+            data: validGallery
+        })
+
+
+
+    } catch (error) {
+        return next(new AppError(error.message, 500))
+    }
+}
+
+
+const deleteGallery = async (req, res, next) => {
+    try {
+
+        const { id } = req.params
+
+        const validGallery = await Gallery.findById(id)
+
+        if (!validGallery) {
             return next(new AppError("Gallery not Found"))
         }
 
         await Gallery.findByIdAndDelete(id)
 
         res.status(200).json({
-            success:true,
-            message:"Gallery Delete Succesfully"
+            success: true,
+            message: "Gallery Delete Succesfully"
         })
 
-    }catch(error){
-        return next(new AppError(error.message,500))
+    } catch (error) {
+        return next(new AppError(error.message, 500))
     }
 }
 
 export {
     addGallery,
     getGallery,
-    deleteGallery
+    deleteGallery,
+    editGallery
 }

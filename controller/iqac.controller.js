@@ -12,6 +12,9 @@ const addiqacTeam=async(req,res,next)=>{
     try{
          const {name,contactNumber,position}=req.body
 
+         console.log(req.body);
+         
+
          if(!name || !contactNumber || !position){
             return next(new AppError("All Field are Required",400))
          }
@@ -363,6 +366,10 @@ const deleteIqacObjective = async (req, res, next) => {
         return next(new AppError(error.message, 500));
     }
 };
+
+
+
+
 
 
 
