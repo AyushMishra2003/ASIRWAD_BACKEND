@@ -39,7 +39,8 @@ app.use(
       "https://freelance.webakash1806.com",
       "https://ayush.webakash1806.com",
       "https://ranipadmawatiasm.in",
-      "https://www.ranipadmawatiasm.in"
+      "https://www.ranipadmawatiasm.in",
+      "https://dashboard-college.netlify.app"
     ],
     credentials: true,
   })
