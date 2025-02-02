@@ -14,6 +14,7 @@ import libraryRoute from "./routes/library.route.js";
 import mainRoute from "./routes/main.route.js";
 import galleryRoute from "./routes/gallery.routes.js";
 import iqacRoute from "./routes/iqac,routes.js";
+import { addInquiry } from "./controller/gallery.controller.js";
 
 
 
@@ -40,6 +41,8 @@ app.use(
       "https://ayush.webakash1806.com",
       "https://ranipadmawatiasm.in",
       "https://www.ranipadmawatiasm.in",
+      "https://master.ranipadmawatiasm.in",
+      "https://www.master.ranipadmawatiasm.in",
       "https://dashboard-college.netlify.app"
     ],
     credentials: true,
@@ -62,7 +65,6 @@ app.use("/api/v1/library",libraryRoute)
 app.use("/api/v1/main",mainRoute)
 app.use("/api/v1/gallery",galleryRoute)
 app.use("/api/v1/iqac",iqacRoute)
-
 
 
 

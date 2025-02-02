@@ -24,6 +24,12 @@ const teamSchema=new Schema(
           position:{
             type:String,
             enum:["adminstrative","faculty","teacher"]
+          },
+          contactNumber:{
+            type:String,
+          },
+          emailId:{
+            type:String
           }
     },
     {

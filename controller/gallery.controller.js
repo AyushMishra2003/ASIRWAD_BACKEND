@@ -2,6 +2,8 @@ import Gallery from "../models/galley.model.js"
 import AppError from "../utlis/error.utlis.js"
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
+import nodemailer from 'nodemailer'; // Import Nodemailer
+import sendEmail from "../utlis/sendEmail.js";
 
 
 const addGallery = async (req, res, next) => {
@@ -75,9 +77,9 @@ const editGallery = async (req, res, next) => {
 
         const { name } = req.body
 
-        const { id } =req.params
+        const { id } = req.params
 
-    
+
 
         const validGallery = await Gallery.findById(id)
 
@@ -85,8 +87,8 @@ const editGallery = async (req, res, next) => {
             return next(new AppError("Gallery Not Found", 400))
         }
 
-        if(name){
-            validGallery.name=name
+        if (name) {
+            validGallery.name = name
         }
 
 
@@ -143,9 +145,76 @@ const deleteGallery = async (req, res, next) => {
     }
 }
 
+const addInquiry = async (req, res, next) => {
+    try {
+        const { fullName, email, phoneNumber, message } = req.body;
+
+        const sender='ranipadmawati1992@gmail.com'
+
+        // Validate input fields
+        if (!fullName || !email || !phoneNumber || !message) {
+            return next(new AppError("All fields are required", 400));
+        }
+
+        if (phoneNumber.length !== 10) {
+            return next(new AppError("Phone number must be 10 digits", 400));
+        }
+
+        // Email format
+        const subject = "New Inquiry Received";
+
+        const messageBody = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <p>Dear Team,</p>
+            <p>We have received a new inquiry from <strong>${fullName}</strong> . Below are the details:</p>
+            
+            <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+                <tr>
+                    <td style="padding: 10px; font-weight: bold; width: 30%;">Name:</td>
+                    <td style="padding: 10px;">${fullName}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; font-weight: bold;">Number:</td>
+                    <td style="padding: 10px;">${phoneNumber}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; font-weight: bold;">Email:</td>
+                    <td style="padding: 10px;">${email}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; font-weight: bold;">Message:</td>
+                    <td style="padding: 10px;">${message}</td>
+                </tr>
+            </table>
+    
+            <p>Thank you for your attention to this matter.</p>
+            
+            <p>Best Regards,<br />
+            रानी पद्मावती तारा योगतंत्र आदर्श संस्कृत महाविद्यालय</p>
+        </div>
+    `;
+
+
+        // Send email
+        await sendEmail(sender, subject, messageBody);
+
+        // Send response
+        res.status(200).json({
+            success: true,
+            message: "Inquiry email sent successfully.",
+        });
+
+    } catch (error) {
+        console.error("Error:", error);
+        return next(new AppError("An error occurred while processing your inquiry", 500));
+    }
+};
+
+
 export {
     addGallery,
     getGallery,
     deleteGallery,
-    editGallery
+    editGallery,
+    addInquiry
 }
