@@ -35,7 +35,6 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://ayush.webakash1806.com",
       "https://ranipadmawatiasm.in",
       "https://www.ranipadmawatiasm.in",
       "https://master.ranipadmawatiasm.in",
