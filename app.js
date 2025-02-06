@@ -33,6 +33,8 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
       "https://ranipadmawatiasm.in",
       "https://www.ranipadmawatiasm.in",
       "https://master.ranipadmawatiasm.in",
@@ -42,9 +44,6 @@ app.use(
     credentials: true,
   })
 );
-
-
-
 app.use(morgan("dev"));
 
 
