@@ -33,17 +33,13 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
       "https://ranipadmawatiasm.in",
       "https://www.ranipadmawatiasm.in",
       "https://master.ranipadmawatiasm.in",
       "https://www.master.ranipadmawatiasm.in",
-      "https://dashboard-college.netlify.app",
+      "https://dashboard-college.netlify.app"
     ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
