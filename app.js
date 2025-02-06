@@ -39,11 +39,16 @@ app.use(
       "https://www.ranipadmawatiasm.in",
       "https://master.ranipadmawatiasm.in",
       "https://www.master.ranipadmawatiasm.in",
-      "https://dashboard-college.netlify.app"
+      "https://dashboard-college.netlify.app",
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+
+
 app.use(morgan("dev"));
 
 
