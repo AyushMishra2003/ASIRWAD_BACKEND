@@ -6,51 +6,49 @@ import nodemailer from 'nodemailer'; // Import Nodemailer
 import sendEmail from "../utlis/sendEmail.js";
 
 
-const addGallery = async (req, res, next) => {
+
+ const addGallery = async (req, res) => {
     try {
-
-        const { name } = req.body
-
-        if (!name) {
-            return next(new AppError("All field are Required", 400))
-        }
-
-        const addGallery = new Gallery({
+      const { name } = req.body;
+      let photos = [];
+  
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: "No photos uploaded" });
+      }
+  
+      // Loop through all uploaded files
+      for (const file of req.files) {
+        const result = await cloudinary.v2.uploader.upload(file.path, {
+          folder: "gallery", // Folder name in Cloudinary
+        });
+  
+        if (result) {
+          const newPhoto = new Gallery({
             name,
             photo: {
-                public_id: "",
-                secure_url: ""
-            }
-        })
-
-
-        if (req.file) {
-            const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                folder: "lms",
-            });
-
-            if (result) {
-                addGallery.photo.public_id = result.public_id;
-                addGallery.photo.secure_url = result.secure_url;
-            }
-
-            fs.rm(`uploads/${req.file.filename}`);
+              public_id: result.public_id,
+              secure_url: result.secure_url,
+            },
+          });
+  
+          await newPhoto.save(); // Save each photo as a new document
+          photos.push(newPhoto);
+  
+          // Remove uploaded file from local storage
+          await fs.rm(file.path);
         }
-
-        await addGallery.save()
-
-        res.status(200).json({
-            success: true,
-            message: "Gallery Added Succesfully",
-            data: addGallery
-        })
-
-
-
+      }
+  
+      res.status(201).json({
+        success:true,
+        message:"Photo added Succesfully",
+        data:photos
+      })
     } catch (error) {
-        return next(new AppError(error.message, 500))
+      console.error("Upload error:", error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
-}
+  };
 
 const getGallery = async (req, res, next) => {
     try {

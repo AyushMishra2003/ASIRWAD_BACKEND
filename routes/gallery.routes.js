@@ -4,10 +4,10 @@ import upload from "../middleware/multer.middleware.js";
 
 const galleryRoute=Router()
 
-galleryRoute.post("/",upload.single("photo"),addGallery)
+galleryRoute.post("/", upload.array("photos", 10), addGallery); // Upload up to 10 images/PDFs
 galleryRoute.post("/inquiry",addInquiry)
 galleryRoute.get("/",getGallery)
-galleryRoute.put("/:id",upload.single("photo"),editGallery)
+galleryRoute.put("/:id",upload.array("photos"),editGallery)
 galleryRoute.delete("/:id",deleteGallery)
 
 
